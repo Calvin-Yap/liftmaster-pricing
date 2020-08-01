@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@media only screen and (max-width: 600px) {
+    body {
+        margin:3%;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .imgbox {
+        display: grid;
+        height: 100%;
+    }
+    .center-fit {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: auto;
+    }
+    h1{
+        font-size: 120%;
+        font-weight: bold;
+    }
+    .discount{
+        margin-left: 2%;
+        width: 20%;
+    }
+
+    .total{
+        font-weight: bold;
+    }
+    .calc{
+        border: solid black 1px;
+        padding: 2%;
+    }
+  }
+  
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+
+  }
+  
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+
+  } 
+  
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+
+  } 
+  
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+
+  }

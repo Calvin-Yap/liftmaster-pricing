@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiftMaster | Pricing</title>
+
+    
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+
+<!-- AngularFire -->
+<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+<!-- BootStrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+  <body ng-controller="controller">
+    <div >
+      <div class="imgbox">
+        <img class="center-fit" src="Title.png" alt="Header">
+      </div>
+      <br/>
+      <h1>Garage Door Openers</h1>
+      <label>Select a Series</label>
+      <br/>
+      <select ng-change="updateSeries()" ng-model="series">
+        <option value="" disabled selected>-Select-</option>
+        <option value = "1">Elite Series</option>
+        <option  value = "2">Premium Series</option>
+        <option  value = "3">Contractor Series</option>
+      </select>
+
+      <div ng-show="isElite">
+        <label>Select a Model</label>
+        <select  ng-change="update()" ng-model="model" ng-options="x.name for x in pricing">
+        <option value="" disabled selected >-Select-</option>
+      </select>
+      <div ng-show ="isSelect48" >
+          <label>Model: {{model.name}}</label>
+            <div>
+            <label>Promo: $<input class="discount" type="text" ng-model="promo" placeholder="0"/> USD</label>
+          </div>
+          <div>
+            <label>Percentage Discount:<input class="discount" type="text" ng-model="percentage" placeholder="0"/> %</label>
+          </div>
+          <div>
+            <label> QTY 1 - 23 ${{model.qty123}} USD
+            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty123"/>
+            </label>
+          </div>
+          <div>
+            <label>QTY 24 - 47 ${{model.qty2447}} USD
+            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty2447"/>
+            </label>
+          </div>
+          <div>
+            <label> QTY 48+ ${{model.qty48plus}} USD
+            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty48plus"/>
+            </label>
+          </div>
+          <div>
+            <label> MAP ${{model.map}} USD
+            <input ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.map"/>
+            </label>
+          </div>
+
+      </div>
+      <div ng-show ="isSelect64" >
+          <label>Model: {{model.name}}</label>
+          <div>
+            <label>Promo: $<input class="discount" type="text" ng-model="promo1"/> USD</label>
+          </div>
+          <div>
+            <label>Percentage Discount:<input  class="discount" type="text" ng-model="percentageElite64" placeholder="0"/> %</label>
+          </div>
+          <div>
+            <label> QTY 1 - 31 ${{model.qty131}} USD
+            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty131"/>
+            </label>
+          </div>
+          <div>
+            <label>QTY 32 - 63 ${{model.qty3263}} USD
+            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty3263"/>
+            </label>
+          </div>
+          <div>
+            <label> QTY 64+ ${{model.qty64plus}} USD
+            <input ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty64plus"/>
+            </label>
+          </div>
+          <div>
+            <label> MAP ${{model.map}} USD
+            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.map"/>
+            </label>
+          </div>
+
+        </div>
+        <div  ng-init="conversionRate='1.31'" ng-init="multiplier='1.00'">
+          <p  ng-show="isSelect48reg" ><b>Grand Total in CAD: ${{(size*conversionRate)-(promo*conversionRate)-(((percentage*0.01)*size)*conversionRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{size}} USD --> ${{size*conversionRate | number:2}} CAD <br/> Promo: ${{promo}} USD --> ${{promo*conversionRate | number:2}} CAD <br/> Percentage Discount: {{percentage}}% --> ${{(((percentage*0.01)*size)*conversionRate)| number:2 }}USD</p>
+          <p ng-show="isSelect64reg"><b>Grand Total in CAD: ${{(size1*conversionRate)-(promo1*conversionRate)-(((percentageElite64*0.01)*size1)*conversionRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{size1}} USD --> ${{size1*conversionRate | number:2}} CAD <br/> Promo: ${{promo1}} USD --> ${{promo1*conversionRate | number:2}} CAD <br/> Percentage Discount: {{percentageElite64}}% --> ${{(((percentageElite64*0.01)*size1)*conversionRate)| number:2 }}USD</p>
+          <p ng-show="isSelect48map"><b>Grand Total in CAD: ${{(size*conversionRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{size}} USD --> ${{size*conversionRate | number:2}} CAD</p>
+          <p ng-show="isSelect64map"><b>Grand Total in CAD: ${{(size1*conversionRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{size1}} USD --> ${{size1*conversionRate | number:2}} CAD</p>
+        </div>
+      </div>
+
+
+
+      <div ng-show="isPremium">
+        <label>Select a Model</label>
+        <select  ng-change="update2()" ng-model="model1" ng-options="x.name for x in pricing2">
+        <option value="" disabled selected >-Select-</option>
+      </select>
+      <div ng-show ="isSelect64prem" >
+        <label>Model: {{model1.name}}</label>
+        <div>
+          <label>Promo: $<input class="discount" type="text" ng-model="promoPrem"/> USD</label>
+        </div>
+        <div>
+          <label>Percentage Discount:<input class="discount" type="text" ng-model="percentagePrem" placeholder="0"/> %</label>
+        </div>
+        <div>
+          <label> QTY 1 - 31 ${{model1.qty131}} USD
+          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty131"/>
+          </label>
+        </div>
+        <div>
+          <label>QTY 32 - 63 ${{model1.qty3263}} USD
+          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty3263"/>
+          </label>
+        </div>
+        <div>
+          <label> QTY 64+ ${{model1.qty64plus}} USD
+          <input ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty64plus"/>
+          </label>
+        </div>
+        <div>
+          <label> MAP ${{model1.map}} USD
+          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.map"/>
+          </label>
+        </div>
+
+        </div>
+        <div ng-init="conversionRate1='1.31'" ng-init="multiplier='1.00'">
+          <p ng-show="isSelect64regprem"><b>Grand Total in CAD: ${{(sizePrem*conversionRate1)-(promoPrem*conversionRate1)-(((percentagePrem*0.01)*sizePrem)*conversionRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizePrem}} USD --> ${{sizePrem*conversionRate1 | number:2}} CAD <br/> Promo: ${{promoPrem}} USD --> ${{promoPrem*conversionRate | number:2}} CAD <br/> Percentage Discount: {{percentagePrem}}% --> ${{(((percentagePrem*0.01)*sizePrem)*conversionRate)| number:2 }}USD</p>
+          <p ng-show="isSelect64mapprem"><b>Grand Total in CAD: ${{(sizePrem*conversionRate1) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{sizePrem}} USD --> ${{sizePrem*conversionRate1 | number:2}} CAD</p>
+        </div>
+      </div>
+
+      <div ng-show="isContractor">
+        <label>Select a model</label>
+        <select  ng-change="update3()" ng-model="model3" ng-options="x.name for x in pricing3">
+        <option value="" disabled selected >-Select-</option>
+      </select>
+      <div ng-show="isSelectCon80" >
+        <label>Model: {{model3.name}}</label>
+          <div>
+          <label>Promo: $<input type="text" ng-model="promoCon80" placeholder="0"/> USD</label>
+        </div>
+        <div>
+          <label>Percentage Discount:<input type="text" ng-model="percentageCon80" placeholder="0"/> %</label>
+        </div>
+        <div>
+          <label> QTY 1 - 39 ${{model3.qty139}} USD
+          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty139"/>
+          </label>
+        </div>
+        <div>
+          <label>QTY 40 - 79 ${{model3.qty4079}} USD
+          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty4079"/>
+          </label>
+        </div>
+        <div>
+          <label> QTY 80+ ${{model3.qty80plus}} USD
+          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty80plus"/>
+          </label>
+        </div>
+        <div>
+          <label> MAP ${{model3.map}} USD
+          <input ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.map"/>
+          </label>
+        </div>
+
+    </div>
+
+    <div ng-show="isSelectCon64" >
+        <label>Model: {{model3.name}}</label>
+        <div>
+          <label>Promo: $<input type="text" ng-model="promoCon64"/> USD</label>
+        </div>
+        <div>
+          <label>Percentage Discount:<input type="text" ng-model="percentageCon64" placeholder="0"/> %</label>
+        </div>
+        <div>
+          <label> QTY 1 - 31 ${{model3.qty131}} USD
+          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty131"/>
+          </label>
+        </div>
+        <div>
+          <label>QTY 32 - 63 ${{model3.qty3263}} USD
+          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty3263"/>
+          </label>
+        </div>
+        <div>
+          <label> QTY 64+ ${{model3.qty64plus}} USD
+          <input ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty64plus"/>
+          </label>
+        </div>
+        <div>
+          <label> MAP ${{model3.map}} USD
+          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.map"/>
+          </label>
+        </div>
+
+      </div>
+      <div ng-init="conversionRate='1.31'" ng-init="multiplier='1.00'">
+        <p ng-show="isSelectCon80reg" ><b>Grand Total in CAD: ${{(sizeCon80*conversionRate)-(promoCon80*conversionRate)-(((percentageCon80*0.01)*sizeCon80)*conversionRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizeCon80}} USD --> ${{sizeCon80*conversionRate | number:2}} CAD <br/> Promo: ${{promoCon80}} USD --> ${{promoCon80*conversionRate | number:2}} CAD <br/> Percentage Discount: {{percentageCon80}}% --> ${{(((percentageCon80*0.01)*sizeCon80)*conversionRate)| number:2 }}USD</p>
+        <p ng-show="isSelectCon64reg"><b>Grand Total in CAD: ${{(sizeCon64*conversionRate)-(promoCon64*conversionRate)-(((percentageCon64*0.01)*sizeCon64)*conversionRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizeCon64}} USD --> ${{sizeCon64*conversionRate | number:2}} CAD <br/> Promo: ${{promoCon64}} USD --> ${{promoCon64*conversionRate | number:2}} CAD <br/> Percentage Discount: {{percentageCon64}}% --> ${{(((percentageCon64*0.01)*sizeCon64)*conversionRate)| number:2 }}USD</p>
+        <p ng-show="isSelectCon80map"><b>Grand Total in CAD: ${{(sizeCon80*conversionRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{sizeCon80}} USD --> ${{sizeCon80*conversionRate | number:2}} CAD</p>
+        <p ng-show="isSelectCon64map"><b>Grand Total in CAD: ${{(sizeCon64*conversionRate) | number:2}} </b><br/>Price Breakdown: <br/> Base: ${{sizeCon64}} USD --> ${{sizeCon64*conversionRate | number:2}} CAD</p>
+      </div>
+      </div>
+    </div>
+
+
+    <br/>
+      <div >
+        <h1>Radio Controls</h1>
+        <label>Select a Radio Control Model</label>
+        <br/>
+        <select ng-change="updateControls()" ng-model="radioControls">
+          <option value="" disabled selected>-Select-</option>
+          <option value = "1">MyQ® Accessories</option>
+          <option  value = "2">Transmitters: Security+ 2.0®</option>
+          <option  value = "3">Transmitters: Security+®</option>
+          <option  value = "4">Universal Solutions: Transmitter & Keypad</option>
+          <option  value = "5">Keypads: Security+ 2.0®</option>
+          <option  value = "6">Control Panels: Security+ 2.0®</option>
+          <option  value = "7">Control Panels: Security+®</option>
+          <option  value = "8">Radio Receivers: Security+®</option>
+        </select>
+
+
+        <div ng-show="afterSelect" >
+        <label>Select a model</label>
+        <select ng-change="checktype()"  ng-model="radioE" ng-options="x.name for x in version">
+            <option value="" disabled selected >-Select-</option>
+          </select>
+
+          <div ng-show="afterModel">
+            <label>Model: {{radioE.name}}</label>
+              <div ng-show="noanyqty">
+                <label> ANY QTY ${{radioE.anyqty}} USD
+                <input  ng-change="totalRadioChange()" ng-model="inputp" type="radio" name="size" ng-value="radioE.anyqty"/>
+                </label>
+              </div>
+            <div ng-show="noqty147">
+              <label> QTY 1-47  ${{radioE.qty147}} USD
+              <input   ng-change="totalRadioChange()" ng-model="inputp" type="radio" name="size" ng-value="radioE.qty147"/>
+              </label>
+            </div>
+            <div ng-show="noqty48plus">
+              <label>QTY 48+ ${{radioE.qty48plus}} USD
+              <input   ng-change="totalRadioChange()" ng-model="inputp" type="radio" name="size" ng-value="radioE.qty48plus"/>
+              </label>
+            </div>
+            <div ng-show="noqty123">
+              <label> QTY 1-23  ${{radioE.qty123}} USD
+              <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="size" ng-value="radioE.qty123"/>
+              </label>
+            </div>
+            <div ng-show="noqty24plus">
+              <label> QTY 24+  ${{radioE.qty24plus}} USD
+              <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="size" ng-value="radioE.qty24plus"/>
+              </label>
+            </div>
+            <div>
+              <label>MAP ${{radioE.map}} USD</label>
+              <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="size" ng-value="radioE.map"/>
+            </div>
+            <div ng-show="nomsrp">
+              <label>MSRP ${{radioE.msrp}} USD</label>
+              <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="size" ng-value="radioE.msrp"/>
+            </div>
+            <div ng-show="totalRadio" ng-init="conversionRate='1.31'" ng-init="multiplier='1.00'">
+              <p  ><b>Grand Total in CAD: ${{(inputp*conversionRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputp}} USD --> ${{inputp*conversionRate | number:2}} CAD </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div>
+        <h1>Residential Accessories</h1>
+        <label>Select a Residential Accessories Model</label>
+        <br/>
+        <select ng-change="updateRes()" ng-model="resControls">
+          <option value="" disabled selected>-Select-</option>
+          <option value = "1">Utility and Convenience Products</option>
+          <option  value = "2">Batteries</option>
+          <option  value = "3">3800/8500 Accessories</option>
+        </select>
+
+        <div ng-show="afterSelectRes">
+          <label>Select a model</label>
+          <select  ng-change="checktype2()" ng-model="radioG" ng-options="x.name for x in restype">
+              <option value="" disabled selected >-Select-</option>
+            </select>
+  
+            <div ng-show="afterModelRes">
+              <label>Model: {{radioG.name}}</label>
+              <div ng-show="no2anyqty">
+                <label> ANY QTY ${{radioG.anyqty}} USD
+                <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="size" ng-value="radioG.anyqty"/>
+                </label>
+              </div>
+              <div ng-show="no2qty123">
+                <label> QTY 1-23  ${{radioG.qty123}} USD
+                <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="size" ng-value="radioG.qty123"/>
+                </label>
+              </div>
+              <div ng-show="no2qty24plus">
+                <label> QTY 24+  ${{radioG.qty24plus}} USD
+                <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="size" ng-value="radioG.qty24plus"/>
+                </label>
+              </div>
+              <div>
+                <label>Map ${{radioG.map}} USD</label>
+                <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="size" ng-value="radioG.map"/>
+              </div>
+              <div ng-show="totalRes" ng-init="conversionRate='1.31'" ng-init="multiplier='1.00'">
+                <p  ><b>Grand Total in CAD: ${{(inpute*conversionRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD --> ${{inpute*conversionRate | number:2}} CAD </p>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+      <br/>
+      <div>
+        <h1>Rails</h1>
+        <label>Select a Rail Model</label>
+        <br/>
+        <select ng-change="updateRails()" ng-model="railControls">
+          <option value="" disabled selected>-Select-</option>
+          <option value = "1">Belt Rails</option>
+          <option  value = "2">Chain Rails</option>
+          <option  value = "3">I-Beam Chain Rails</option>
+          <option  value = "4">Chain/Cable Drive Rails</option>
+        </select>
+
+
+      <div ng-show="afterSelectRail" >
+        <label>Select a model</label>
+        <select ng-change="checktype3()" ng-model="radioF" ng-options="x.name for x in railtype">
+            <option value="" disabled selected >-Select-</option>
+          </select>
+
+          <div ng-show="afterModelRail">
+            <label>Model: {{radioF.name}}</label>
+            <div>
+              <label>List Price ${{radioF.list}} USD</label>
+              <input  ng-change="totalRailsChange()" ng-model="inputr" type="radio" name="size" ng-value="radioF.list"/>
+            </div>
+            <div>
+              <label>Map ${{radioF.map}} USD</label>
+              <input ng-change="totalRailsChange()" ng-model="inputr" type="radio" name="size" ng-value="radioF.map"/>
+            </div>
+            <div ng-show="totalRails" ng-init="conversionRate='1.31'" ng-init="multiplier='1.00'">
+              <p  ><b>Grand Total in CAD: ${{(inputr*conversionRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD --> ${{inputr*conversionRate | number:2}} CAD </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  </body>
+
+  
+  <script>
+    var app =angular.module('app', ['ngRoute','firebase']);
+    // Database Getter
+    app.controller('controller', function($scope,$http){
+        $http.get("pricing.php")
+        .then(function(response){
+          $scope.pricing = response.data.elite;
+          $scope.pricing2 = response.data.premium;
+          $scope.pricing3 = response.data.contractor;
+        });
+
+        // Variable initilization 
+        $scope.isElite = false;
+        $scope.isPremium = false;
+        $scope.isContractor = false;
+        $scope.isSelect48 = false;
+        $scope.isSelect64 = false;
+        $scope.isSelect48reg = false;
+        $scope.isSelect64reg = false;
+        $scope.isSelect48map = false;
+        $scope.isSelect64map = false;
+        $scope.promo = "0";
+        $scope.promo1 = "0";
+        $scope.isSelect64prem = false;
+        $scope.isSelect64regprem = false;
+        $scope.isSelect64mapprem = false;
+        $scope.isSelectCon80reg = false;
+        $scope.isSelectCon64reg = false;
+        $scope.isSelectCon48map = false;
+        $scope.isSelectCon64map = false;
+        $scope.promoCon64 = "0";
+        $scope.promoCon80 = "0";
+        $scope.isSelectCon64 = false;
+        $scope.isSelectCon80 = false;
+        $scope.percentage = "0";
+        $scope.percentageElite64 = "0";
+        $scope.percentagePrem ="0";
+        $scope.percentageCon80 ="0";
+        $scope.percentageCon64="0";
+
+        $scope.reset =function(){
+          $scope.isSelect48 = false;
+          $scope.isSelect64 = false;
+          $scope.isSelect48reg = false;
+          $scope.isSelect64reg = false;
+          $scope.isSelect48map = false;
+          $scope.isSelect64map = false;
+          $scope.isSelect64prem = false;
+          $scope.isSelect64regprem = false;
+          $scope.isSelect64mapprem = false;
+          $scope.isSelect64prem = false;
+          $scope.isSelect64regprem = false;
+          $scope.isSelect64mapprem = false;
+          $scope.isSelectCon80reg = false;
+          $scope.isSelectCon64reg = false;
+          $scope.isSelectCon48map = false;
+          $scope.isSelectCon64map = false;
+          $scope.model = null;
+          $scope.model1= null;
+          $scope.model3=null;
+          $scope.promo = "0";
+          $scope.promo1 = "0";
+          $scope.promoCon64 = "0";
+          $scope.promoCon80 = "0";
+          $scope.percentage = "0";
+          $scope.percentageElite64 = "0";
+          $scope.percentagePrem ="0";
+          $scope.percentageCon80 ="0";
+          $scope.percentageCon64="0";
+        }
+        $scope.updateSeries= function(){
+          if($scope.series == "1"){
+            $scope.reset();
+            $scope.isElite = true;
+            $scope.isPremium = false;
+            $scope.isContractor = false;
+          }
+          else if($scope.series =="2"){
+            $scope.reset();
+            $scope.isElite = false;
+            $scope.isPremium = true;
+           $scope.isContractor = false;
+          }
+          else if($scope.series == "3") {
+            $scope.reset();
+            $scope.isElite = false;
+            $scope.isPremium = false;
+           $scope.isContractor = true;
+          }
+        }
+       $scope.update = function(){
+         $scope.size="0";
+         $scope.size1="0";
+         $scope.promo = "0";
+        $scope.promo1 = "0";
+        $scope.percentage = "0";
+          $scope.percentageElite64 = "0";
+         //console.log($scope.model.name);
+         if( $scope.model.name == "8500W" || $scope.model.name == "8500C"){
+           $scope.isSelect48=true;
+           $scope.isSelect64 = false;
+         }else{
+          $scope.isSelect48 = false;
+          $scope.isSelect64 = true;
+         }
+        }
+      
+        $scope.update2 = function(){
+         $scope.sizePrem="0";
+        $scope.promoPrem = "0";
+        $scope.percentagePrem ="0";
+        $scope.isSelect64prem = true;
+
+        }
+
+        $scope.update3 = function(){
+          $scope.sizeCon80 ="0";
+          $scope.sizeCon64 ="0";
+          $scope.promoCon80 ="0";
+          $scope.promoCon64 ="0";
+          $scope.percentageCon80 ="0";
+          $scope.percentageCon64="0";
+         if( $scope.model3.name == "80107" || $scope.model3.name == "80108"){
+          $scope.isSelectCon64 = false;
+        $scope.isSelectCon80 = true;
+
+         }else{
+          $scope.isSelectCon64 = true;
+          $scope.isSelectCon80 = false;
+
+         }
+        }
+
+        $scope.totalRadio =false;
+        $scope.totalRes= false;
+        $scope.totalRails=false;
+
+        $scope.noanyqty=true;
+        $scope.noqty147=true;
+        $scope.noqty48plus=true;
+        $scope.noqty123=true;
+        $scope.noqty24plus=true;
+        $scope.nomsrp=true;
+        $scope.inputp = "0";
+        $scope.radioE=null;
+
+        $scope.checktype = function(){
+          $scope.totalRadio = false;
+          $scope.inputp = "0";
+          $scope.noanyqty=true;
+        $scope.noqty147=true;
+        $scope.noqty48plus=true;
+        $scope.noqty123=true;
+        $scope.noqty24plus=true;
+        $scope.nomsrp=true;
+        if($scope.radioE != null ){ 
+          $scope.afterModel=true;         
+          if($scope.radioE.anyqty == "na"){
+            $scope.noanyqty = false;
+          }
+          if($scope.radioE.qty147 == "na"){
+            $scope.noqty147=false;
+          }
+          if($scope.radioE.qty48plus == "na"){
+            $scope.noqty48plus=false;
+          }
+          if($scope.radioE.qty123 == "na"){
+            $scope.noqty123=false;
+          }
+          if($scope.radioE.qty24plus == "na"){
+            $scope.noqty24plus=false;
+          }
+          if($scope.radioE.msrp == "na"){
+            $scope.nomsrp=false;
+          }}
+        }
+
+        $scope.totalRadioChange = function(){
+          $scope.totalRadio = false;
+
+          if($scope.inputp  > "0"){
+            $scope.totalRadio= true;
+          }
+        }
+        
+        $scope.totalResChange = function(){
+          $scope.totalRadio = false;
+
+          if($scope.inpute > "0"){
+            $scope.totalRes= true;
+          }
+        }
+        
+        $scope.totalRailsChange = function(){
+          $scope.totalRadio = false;
+
+          if($scope.inputr  > "0"){
+            $scope.totalRails= true;
+          }
+        }
+
+        $scope.no2anyqty=true;
+        $scope.noqty123=true;
+        $scope.noqty24plus=true;
+        $scope.inpute = "0";
+        $scope.radioG=null;
+
+        $scope.checktype2 = function(){
+          $scope.totalRes= false;
+          $scope.inpute = "0";
+          $scope.no2anyqty=true;
+        $scope.no2qty123=true;
+        $scope.no2qty24plus=true;
+        if($scope.radioG != null ){ 
+          $scope.afterModelRes=true;         
+          if($scope.radioG.anyqty == "na"){
+            $scope.no2anyqty = false;
+          }
+          if($scope.radioG.qty123 == "na"){
+            $scope.no2qty123=false;
+          }
+          if($scope.radioG.qty24plus == "na"){
+            $scope.no2qty24plus=false;
+          }
+          }
+
+        }
+
+        $scope.inputr ="0";
+
+        $scope.checktype3= function(){
+          $scope.totalRails=false;
+          $scope.inputr="0";
+          if($scope.radioF != null){
+            $scope.afterModelRail =true;
+          }
+        }
+
+
+
+        $scope.mapcheck = function(){
+          $scope.isSelect48reg = false;
+              $scope.isSelect48map = false;
+            if($scope.size1 == $scope.model.map){
+              $scope.isSelect64map = true;
+              $scope.isSelect64reg = false;
+            }
+            else{
+              $scope.isSelect64reg = true;
+              $scope.isSelect64map = false;
+            }
+        }
+        $scope.mapcheck1 = function(){
+          $scope.isSelect64reg = false;
+              $scope.isSelect64map = false;
+            if($scope.size == $scope.model.map){
+              $scope.isSelect48map = true;
+              $scope.isSelect48reg = false;
+            }
+            else{
+              $scope.isSelect48reg = true;
+              $scope.isSelect48map = false;
+            }
+        }
+
+        $scope.mapcheck3 = function(){
+          $scope.isSelect64regprem = false;
+          $scope.isSelect64mapprem = false;
+          if($scope.sizePrem == $scope.model1.map){
+              $scope.isSelect64mapprem = true;
+              $scope.isSelect64regprem = false;
+            }
+            else{
+              $scope.isSelect64regprem = true;
+              $scope.isSelect64mapprem = false;
+            }
+        }
+
+        $scope.mapcheck4 = function(){
+          $scope.isSelectCon64reg = false;
+          $scope.isSelectCon64map = false;
+          if($scope.sizeCon64 == $scope.model3.map){
+              $scope.isSelectCon64map = true;
+              $scope.isSelectCon64reg = false;
+            }
+            else{
+              $scope.isSelectCon64reg = true;
+              $scope.isSelectCon64map = false;
+            }
+        }
+        $scope.mapcheck5 = function(){
+          $scope.isSelectCon80map = false;
+          $scope.isSelectCon80reg = false;
+          if($scope.sizeCon80 == $scope.model3.map){
+              $scope.isSelectCon80map = true;
+              $scope.isSelectCon80reg = false;
+            }
+            else{
+              $scope.isSelectCon80reg = true;
+              $scope.isSelectCon80map = false;
+            }
+        }
+
+        //radio
+        $scope.afterSelect=false;    
+        $scope.afterModel=false; 
+        $scope.updateControls= function(){
+          if($scope.radioControls == "1"){
+            $http.get("pricingControls.php")
+        .then(function(response){
+          $scope.version = response.data.myq;
+          $scope.afterSelect = true;
+          $scope.afterModel=false; 
+        });
+          }
+          else if($scope.radioControls =="2"){
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.trans2;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+
+            });
+          }
+          else if($scope.radioControls == "3") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.trans;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+
+            });
+          }
+           else if($scope.radioControls == "4") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.universalSolu;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+
+            });
+          }
+          else if($scope.radioControls == "5") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.keypads2;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+            });
+
+          }
+          else if($scope.radioControls == "6") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.controlpanels2;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+            });
+
+          }
+          else if($scope.radioControls == "7") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.controlpanels;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+            });
+          }
+          else if($scope.radioControls == "8") {
+            $http.get("pricingControls.php")
+            .then(function(response){
+              $scope.version = response.data.radio;
+              $scope.afterSelect = true;
+              $scope.afterModel=false; 
+            });
+          }
+        }
+        //Rail
+        $scope.afterSelectRail=false;
+        $scope.afterModelRail=false; 
+
+        $scope.updateRails= function(){
+          if($scope.railControls == "1"){
+            $http.get("rails.php")
+        .then(function(response){
+          $scope.railtype = response.data.beltrails;
+          $scope.afterSelectRail=true;
+        $scope.afterModelRail=false; 
+        });
+          }
+          else if($scope.railControls =="2"){
+            $http.get("rails.php")
+            .then(function(response){
+              $scope.railtype = response.data.chainrails;
+              $scope.afterSelectRail=true;
+              $scope.afterModelRail=false; 
+            });
+          }
+          else if($scope.railControls == "3") {
+            $http.get("rails.php")
+            .then(function(response){
+              $scope.railtype = response.data.ibeamrails;
+              $scope.afterSelectRail=true;
+              $scope.afterModelRail=false; 
+            });
+          }
+           else if($scope.railControls == "4") {
+            $http.get("rails.php")
+            .then(function(response){
+              $scope.railtype = response.data.cabledriverails;
+              $scope.afterSelectRail=true;
+              $scope.afterModelRail=false; 
+            });
+          }
+        }
+
+        //Res
+        $scope.afterSelectRes=false;
+        $scope.afterModelRes=false; 
+
+        $scope.updateRes = function(){
+          if($scope.resControls == "1"){
+            $http.get("residential.php")
+        .then(function(response){
+          $scope.restype = response.data.utility;
+          $scope.afterSelectRes=true;
+        $scope.afterModelRes=false; 
+          });
+          }
+          else if($scope.resControls =="2"){
+            $http.get("residential.php")
+            .then(function(response){
+              $scope.restype = response.data.batteries;
+              $scope.afterSelectRes=true;
+              $scope.afterModelRes=false; 
+            });
+          }
+          else if($scope.resControls == "3") {
+            $http.get("residential.php")
+            .then(function(response){
+              $scope.restype = response.data.accessories;
+              $scope.afterSelectRes=true;
+              $scope.afterModelRes=false; 
+            });
+          }
+        }    
+
+    });
+
+
+    const config = {
+        apiKey: "AIzaSyCiA3baPou7irYi248UbTw5spkif3gSiFs",
+        authDomain: "liftmaster-3d0d7.firebaseapp.com",
+        databaseURL: "https://liftmaster-3d0d7.firebaseio.com",
+        projectId: "liftmaster-3d0d7",
+        storageBucket: "liftmaster-3d0d7.appspot.com",
+        messagingSenderId: "566258234825",
+        appId: "1:566258234825:web:f0220d0dcc4815b0796418",
+        measurementId: "G-XEM24L6NS9"
+      };
+
+    firebase.initializeApp(config);
+  </script>
+</html>
+
