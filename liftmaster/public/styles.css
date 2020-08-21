@@ -29,6 +29,12 @@
         border: solid black 1px;
         padding: 2%;
     }
+    button{
+        border-radius: 10px;
+        background-color: white;
+        font-family: 'Open Sans', sans-serif;
+
+    }
   }
   
   /* Small devices (portrait tablets and large phones, 600px and up) */
