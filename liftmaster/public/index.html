@@ -108,8 +108,8 @@
             </label>
           </div>
           <div class="totalbox" ng-show="totalGar"  ng-init="multiplier='1.00'">
-            <p ng-show="notmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)-(garpromo*exchangeRate)-((garpercent*0.01)*inputh)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD --> ${{inputh*exchangeRate | number:2}} CAD <br/> Promo: ${{garpromo}} USD --> ${{garpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{garpercent}}% --> ${{(((garpercent*0.01)*inputh)*exchangeRate)| number:2 }}CAD  </p>
-            <p ng-show="yesmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD --> ${{inputh*exchangeRate | number:2}} CAD </p>
+            <p ng-show="notmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)-(garpromo*exchangeRate)-((garpercent*0.01)*inputh)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD &#8594; ${{inputh*exchangeRate | number:2}} CAD <br/> Promo: ${{garpromo}} USD &#8594; ${{garpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{garpercent}}% &#8594; ${{(((garpercent*0.01)*inputh)*exchangeRate)| number:2 }}CAD  </p>
+            <p ng-show="yesmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD &#8594; ${{inputh*exchangeRate | number:2}} CAD </p>
           </div>
         </div>
       </div>
@@ -180,8 +180,8 @@
               <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="radio7"  ng-value="radioE.msrp"/>
             </div>
             <div class="totalbox" ng-show="totalRadio"  ng-init="multiplier='1.00'">
-              <p ng-show="notmapradio"><b>Grand Total in CAD: ${{(inputp*exchangeRate)-(radiopromo*exchangeRate)-((radiopercent*0.01)*inputp)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputp}} USD --> ${{inputp*exchangeRate | number:2}} CAD <br/> Promo: ${{radiopromo}} USD --> ${{radiopromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{radiopercent}}% --> ${{(((radiopercent*0.01)*inputp)*exchangeRate)| number:2 }}CAD  </p>
-              <p ng-show="yesmapradio"><b>Grand Total in CAD: ${{(inputz*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputz}} USD --> ${{inputz*exchangeRate | number:2}} CAD </p>            
+              <p ng-show="notmapradio"><b>Grand Total in CAD: ${{(inputp*exchangeRate)-(radiopromo*exchangeRate)-((radiopercent*0.01)*inputp)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputp}} USD &#8594; ${{inputp*exchangeRate | number:2}} CAD <br/> Promo: ${{radiopromo}} USD &#8594; ${{radiopromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{radiopercent}}% &#8594; ${{(((radiopercent*0.01)*inputp)*exchangeRate)| number:2 }}CAD  </p>
+              <p ng-show="yesmapradio"><b>Grand Total in CAD: ${{(inputz*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputz}} USD &#8594; ${{inputz*exchangeRate | number:2}} CAD </p>            
             </div>
 
           </div>
@@ -235,8 +235,8 @@
                 <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="res4" ng-value="radioG.map"/>
               </div>
               <div class="totalbox" ng-show="totalRes"  ng-init="multiplier='1.00'">
-                <p ng-show="notmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)-(respromo*exchangeRate)-((respercent*0.01)*inpute)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD --> ${{inpute*exchangeRate | number:2}} CAD <br/> Promo: ${{respromo}} USD --> ${{respromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{respercent}}% --> ${{(((respercent*0.01)*inpute)*exchangeRate)| number:2 }}CAD  </p>
-                <p ng-show="yesmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD --> ${{inpute*exchangeRate | number:2}} CAD </p>
+                <p ng-show="notmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)-(respromo*exchangeRate)-((respercent*0.01)*inpute)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD &#8594; ${{inpute*exchangeRate | number:2}} CAD <br/> Promo: ${{respromo}} USD &#8594; ${{respromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{respercent}}% &#8594; ${{(((respercent*0.01)*inpute)*exchangeRate)| number:2 }}CAD  </p>
+                <p ng-show="yesmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD &#8594; ${{inpute*exchangeRate | number:2}} CAD </p>
 
               </div>
             </div>
@@ -281,8 +281,8 @@
               <input ng-change="totalRailsChange()" ng-model="inputr" type="radio" name="rail2" ng-value="radioF.map"/>
             </div>
             <div  class="totalbox" ng-show="totalRails"  ng-init="multiplier='1.00'">
-              <p  ng-show="notmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)-(railpromo*exchangeRate)-((railpercent*0.01)*inputr)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD --> ${{inputr*exchangeRate | number:2}} CAD <br/> Promo: ${{railpromo}} USD --> ${{railpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{railpercent}}% --> ${{(((railpercent*0.01)*inputr)*exchangeRate)| number:2 }}CAD  </p>
-              <p  ng-show="yesmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD --> ${{inputr*exchangeRate | number:2}} CAD </p>
+              <p  ng-show="notmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)-(railpromo*exchangeRate)-((railpercent*0.01)*inputr)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD &#8594; ${{inputr*exchangeRate | number:2}} CAD <br/> Promo: ${{railpromo}} USD &#8594; ${{railpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{railpercent}}% &#8594; ${{(((railpercent*0.01)*inputr)*exchangeRate)| number:2 }}CAD  </p>
+              <p  ng-show="yesmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD &#8594; ${{inputr*exchangeRate | number:2}} CAD </p>
             </div>
           </div>
         </div>
