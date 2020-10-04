@@ -35,6 +35,12 @@
         font-family: 'Open Sans', sans-serif;
 
     }
+    .totalbox{
+        text-align: center;
+        border: solid black 1px;
+        padding: 2%;
+        border-radius: 20px;
+    }
   }
   
   /* Small devices (portrait tablets and large phones, 600px and up) */

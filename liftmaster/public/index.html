@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html  lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml" ng-app="app">
   <head>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <meta charset="utf-8">
@@ -31,209 +31,89 @@
         <img class="center-fit" src="Title.png" alt="Header">
       </div>
       <br/>
+  <div>
+    <h1>Garage Door Openers</h1>
+    <label>Select a Garage Door Series</label>
+    <br/>
+    <select ng-change="updateSeries()" ng-model="series">
+      <option value="" disabled selected>-Select-</option>
+      <option value = "1">Elite Series</option>
+      <option  value = "2">Premium Series</option>
+      <option  value = "3">Contractor Series</option>
+    </select>
 
-      <h1>Garage Door Openers</h1>
-      <label>Select a Series</label>
-      <br/>
-      <select ng-change="updateSeries()" ng-model="series">
-        <option value="" disabled selected>-Select-</option>
-        <option value = "1">Elite Series</option>
-        <option  value = "2">Premium Series</option>
-        <option  value = "3">Contractor Series</option>
-      </select>
+    <div ng-show="afterGarSelect" >
+      <label>Select a model</label>
+      <select  ng-change="checktypeGar()" ng-model="radioH" ng-options="x.name for x in Gtype">
+          <option value="" disabled selected >-Select-</option>
+        </select>
 
-      <div ng-show="isElite">
-        <label>Select a Model</label>
-        <select  ng-change="update()" ng-model="model" ng-options="x.name for x in pricing">
-        <option value="" disabled selected >-Select-</option>
-      </select>
-      <div ng-show ="isSelect48" >
-          <label>Model: {{model.name}}</label>
-            <div>
-            <label>Promo: $<input class="discount" type="text" ng-model="promo" placeholder="0"/> USD</label>
+        <div ng-show="afterGarModel" >
+          <label>Model: {{radioH.name}}</label>
+
+          <div>
+            <label>Promo: $<input class="discount" type="text" ng-model="garpromo" placeholder="0"/> USD</label>
           </div>
           <div>
-            <label>Percentage Discount:<input class="discount" type="text" ng-model="percentage" placeholder="0"/> %</label>
+            <label>Percentage Discount:<input  class="discount" type="text" ng-model="garpercent" placeholder="0"/> %</label>
           </div>
-          <div>
-            <label> QTY 1 - 23 ${{model.qty123}} USD
-            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty123"/>
+          <div ng-show="noGarqty123">
+            <label> QTY 1-23  ${{radioH.qty123}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty123"/>
             </label>
           </div>
-          <div>
-            <label>QTY 24 - 47 ${{model.qty2447}} USD
-            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty2447"/>
+          <div ng-show="noGarqty2447">
+            <label> QTY 24-47  ${{radioH.qty2447}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty2447"/>
             </label>
           </div>
-          <div>
-            <label> QTY 48+ ${{model.qty48plus}} USD
-            <input  ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.qty48plus"/>
+          <div ng-show="noGarqty48plus">
+            <label> QTY 48+  ${{radioH.qty48plus}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty48plus"/>
             </label>
           </div>
-          <div>
-            <label> MAP ${{model.map}} USD
-            <input ng-change ="mapcheck1()" ng-model = "size" type="radio" name="size" ng-value="model.map"/>
+          <div ng-show="noGarqty131">
+            <label> QTY 1-31  ${{radioH.qty131}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty131"/>
             </label>
           </div>
-
-      </div>
-      <div ng-show ="isSelect64" >
-          <label>Model: {{model.name}}</label>
-          <div>
-            <label>Promo: $<input class="discount" type="text" ng-model="promo1"/> USD</label>
-          </div>
-          <div>
-            <label>Percentage Discount:<input  class="discount" type="text" ng-model="percentageElite64" placeholder="0"/> %</label>
-          </div>
-          <div>
-            <label> QTY 1 - 31 ${{model.qty131}} USD
-            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty131"/>
+          <div ng-show="noGarqty3263">
+            <label> QTY 32-63  ${{radioH.qty3263}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty3263"/>
             </label>
           </div>
-          <div>
-            <label>QTY 32 - 63 ${{model.qty3263}} USD
-            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty3263"/>
+          <div ng-show="noGarqty64plus">
+            <label> QTY 64+  ${{radioH.qty64plus}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty64plus"/>
             </label>
           </div>
-          <div>
-            <label> QTY 64+ ${{model.qty64plus}} USD
-            <input ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.qty64plus"/>
+          <div ng-show="noGarqty139">
+            <label> QTY 1-39  ${{radioH.qty139}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty139"/>
             </label>
           </div>
-          <div>
-            <label> MAP ${{model.map}} USD
-            <input  ng-change ="mapcheck()" ng-model = "size1" type="radio" name="size" ng-value="model.map"/>
+          <div ng-show="noGarqty4079">
+            <label> QTY 40-79  ${{radioH.qty4079}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty4079"/>
             </label>
           </div>
-
-        </div>
-        <div   ng-init="multiplier='1.00'">
-          <p  ng-show="isSelect48reg" ><b>Grand Total in CAD: ${{(size*exchangeRate)-(promo*exchangeRate)-(((percentage*0.01)*size)*exchangeRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{size}} USD --> ${{size*exchangeRate | number:2}} CAD <br/> Promo: ${{promo}} USD --> ${{promo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{percentage}}% --> ${{(((percentage*0.01)*size)*exchangeRate)| number:2 }}CAD</p>
-          <p ng-show="isSelect64reg"><b>Grand Total in CAD: ${{(size1*exchangeRate)-(promo1*exchangeRate)-(((percentageElite64*0.01)*size1)*exchangeRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{size1}} USD --> ${{size1*exchangeRate | number:2}} CAD <br/> Promo: ${{promo1}} USD --> ${{promo1*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{percentageElite64}}% --> ${{(((percentageElite64*0.01)*size1)*exchangeRate)| number:2 }}CAD</p>
-          <p ng-show="isSelect48map"><b>Grand Total in CAD: ${{(size*exchangeRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{size}} USD --> ${{size*exchangeRate | number:2}} CAD</p>
-          <p ng-show="isSelect64map"><b>Grand Total in CAD: ${{(size1*exchangeRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{size1}} USD --> ${{size1*exchangeRate | number:2}} CAD</p>
-        </div>
-      </div>
-
-
-
-      <div ng-show="isPremium">
-        <label>Select a Model</label>
-        <select  ng-change="update2()" ng-model="model1" ng-options="x.name for x in pricing2">
-        <option value="" disabled selected >-Select-</option>
-      </select>
-      <div ng-show ="isSelect64prem" >
-        <label>Model: {{model1.name}}</label>
-        <div>
-          <label>Promo: $<input class="discount" type="text" ng-model="promoPrem"/> USD</label>
-        </div>
-        <div>
-          <label>Percentage Discount:<input class="discount" type="text" ng-model="percentagePrem" placeholder="0"/> %</label>
-        </div>
-        <div>
-          <label> QTY 1 - 31 ${{model1.qty131}} USD
-          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty131"/>
-          </label>
-        </div>
-        <div>
-          <label>QTY 32 - 63 ${{model1.qty3263}} USD
-          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty3263"/>
-          </label>
-        </div>
-        <div>
-          <label> QTY 64+ ${{model1.qty64plus}} USD
-          <input ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.qty64plus"/>
-          </label>
-        </div>
-        <div>
-          <label> MAP ${{model1.map}} USD
-          <input  ng-change ="mapcheck3()" ng-model = "sizePrem" type="radio" name="size" ng-value="model1.map"/>
-          </label>
-        </div>
-
-        </div>
-        <div  ng-init="multiplier='1.00'">
-          <p ng-show="isSelect64regprem"><b>Grand Total in CAD: ${{(sizePrem*exchangeRate)-(promoPrem*exchangeRate)-(((percentagePrem*0.01)*sizePrem)*exchangeRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizePrem}} USD --> ${{sizePrem*exchangeRate | number:2}} CAD <br/> Promo: ${{promoPrem}} USD --> ${{promoPrem*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{percentagePrem}}% --> ${{(((percentagePrem*0.01)*sizePrem)*exchangeRate)| number:2 }}CAD</p>
-          <p ng-show="isSelect64mapprem"><b>Grand Total in CAD: ${{(sizePrem*exchangeRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{sizePrem}} USD --> ${{sizePrem*exchangeRate | number:2}} CAD</p>
+          <div ng-show="noGarqty80plus">
+            <label> QTY 80+  ${{radioH.qty80plus}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.qty80plus"/>
+            </label>
+          </div>
+          <div >
+            <label>MAP ${{radioH.map}} USD
+            <input ng-change="totalGarageChange()"  ng-model="inputh" type="radio" name="size" ng-value="radioH.map"/>
+            </label>
+          </div>
+          <div class="totalbox" ng-show="totalGar"  ng-init="multiplier='1.00'">
+            <p ng-show="notmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)-(garpromo*exchangeRate)-((garpercent*0.01)*inputh)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD --> ${{inputh*exchangeRate | number:2}} CAD <br/> Promo: ${{garpromo}} USD --> ${{garpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{garpercent}}% --> ${{(((garpercent*0.01)*inputh)*exchangeRate)| number:2 }}CAD  </p>
+            <p ng-show="yesmapgar"><b>Grand Total in CAD: ${{(inputh*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputh}} USD --> ${{inputh*exchangeRate | number:2}} CAD </p>
+          </div>
         </div>
       </div>
-
-      <div ng-show="isContractor">
-        <label>Select a model</label>
-        <select  ng-change="update3()" ng-model="model3" ng-options="x.name for x in pricing3">
-        <option value="" disabled selected >-Select-</option>
-      </select>
-      <div ng-show="isSelectCon80" >
-        <label>Model: {{model3.name}}</label>
-          <div>
-          <label>Promo: $<input type="text" ng-model="promoCon80" placeholder="0"/> USD</label>
-        </div>
-        <div>
-          <label>Percentage Discount:<input type="text" ng-model="percentageCon80" placeholder="0"/> %</label>
-        </div>
-        <div>
-          <label> QTY 1 - 39 ${{model3.qty139}} USD
-          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty139"/>
-          </label>
-        </div>
-        <div>
-          <label>QTY 40 - 79 ${{model3.qty4079}} USD
-          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty4079"/>
-          </label>
-        </div>
-        <div>
-          <label> QTY 80+ ${{model3.qty80plus}} USD
-          <input  ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.qty80plus"/>
-          </label>
-        </div>
-        <div>
-          <label> MAP ${{model3.map}} USD
-          <input ng-change ="mapcheck5()" ng-model = "sizeCon80" type="radio" name="size" ng-value="model3.map"/>
-          </label>
-        </div>
-
-    </div>
-
-    <div ng-show="isSelectCon64" >
-        <label>Model: {{model3.name}}</label>
-        <div>
-          <label>Promo: $<input type="text" ng-model="promoCon64"/> USD</label>
-        </div>
-        <div>
-          <label>Percentage Discount:<input type="text" ng-model="percentageCon64" placeholder="0"/> %</label>
-        </div>
-        <div>
-          <label> QTY 1 - 31 ${{model3.qty131}} USD
-          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty131"/>
-          </label>
-        </div>
-        <div>
-          <label>QTY 32 - 63 ${{model3.qty3263}} USD
-          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty3263"/>
-          </label>
-        </div>
-        <div>
-          <label> QTY 64+ ${{model3.qty64plus}} USD
-          <input ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.qty64plus"/>
-          </label>
-        </div>
-        <div>
-          <label> MAP ${{model3.map}} USD
-          <input  ng-change ="mapcheck4()" ng-model = "sizeCon64" type="radio" name="size" ng-value="model3.map"/>
-          </label>
-        </div>
-
-      </div>
-      <div  ng-init="multiplier='1.00'">
-        <p ng-show="isSelectCon80reg" ><b>Grand Total in CAD: ${{(sizeCon80*exchangeRate)-(promoCon80*exchangeRate)-(((percentageCon80*0.01)*sizeCon80)*exchangeRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizeCon80}} USD --> ${{sizeCon80*exchangeRate | number:2}} CAD <br/> Promo: ${{promoCon80}} USD --> ${{promoCon80*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{percentageCon80}}% --> ${{(((percentageCon80*0.01)*sizeCon80)*exchangeRate)| number:2 }}CAD</p>
-        <p ng-show="isSelectCon64reg"><b>Grand Total in CAD: ${{(sizeCon64*exchangeRate)-(promoCon64*exchangeRate)-(((percentageCon64*0.01)*sizeCon64)*exchangeRate) | number:2}}</b><br/>Price Breakdown: <br/> Base: ${{sizeCon64}} USD --> ${{sizeCon64*exchangeRate | number:2}} CAD <br/> Promo: ${{promoCon64}} USD --> ${{promoCon64*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{percentageCon64}}% --> ${{(((percentageCon64*0.01)*sizeCon64)*exchangeRate)| number:2 }}CAD</p>
-        <p ng-show="isSelectCon80map"><b>Grand Total in CAD: ${{(sizeCon80*exchangeRate) | number:2}}</b> <br/>Price Breakdown: <br/> Base: ${{sizeCon80}} USD --> ${{sizeCon80*exchangeRate | number:2}} CAD</p>
-        <p ng-show="isSelectCon64map"><b>Grand Total in CAD: ${{(sizeCon64*exchangeRate) | number:2}} </b><br/>Price Breakdown: <br/> Base: ${{sizeCon64}} USD --> ${{sizeCon64*exchangeRate | number:2}} CAD</p>
-      </div>
-      </div>
-    </div>
-
-
+  </div>
     <br/>
       <div >
         <h1>Radio Controls</h1>
@@ -299,7 +179,7 @@
               <label>MSRP ${{radioE.msrp}} USD</label>
               <input  ng-change="totalRadioChange()"  ng-model="inputp" type="radio" name="size"  ng-value="radioE.msrp"/>
             </div>
-            <div ng-show="totalRadio"  ng-init="multiplier='1.00'">
+            <div class="totalbox" ng-show="totalRadio"  ng-init="multiplier='1.00'">
               <p ng-show="notmapradio"><b>Grand Total in CAD: ${{(inputp*exchangeRate)-(radiopromo*exchangeRate)-((radiopercent*0.01)*inputp)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputp}} USD --> ${{inputp*exchangeRate | number:2}} CAD <br/> Promo: ${{radiopromo}} USD --> ${{radiopromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{radiopercent}}% --> ${{(((radiopercent*0.01)*inputp)*exchangeRate)| number:2 }}CAD  </p>
               <p ng-show="yesmapradio"><b>Grand Total in CAD: ${{(inputz*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputz}} USD --> ${{inputz*exchangeRate | number:2}} CAD </p>            
             </div>
@@ -354,16 +234,15 @@
                 <label>Map ${{radioG.map}} USD</label>
                 <input ng-change="totalResChange()"  ng-model="inpute" type="radio" name="size" ng-value="radioG.map"/>
               </div>
-              <div ng-show="totalRes"  ng-init="multiplier='1.00'">
+              <div class="totalbox" ng-show="totalRes"  ng-init="multiplier='1.00'">
                 <p ng-show="notmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)-(respromo*exchangeRate)-((respercent*0.01)*inpute)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD --> ${{inpute*exchangeRate | number:2}} CAD <br/> Promo: ${{respromo}} USD --> ${{respromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{respercent}}% --> ${{(((respercent*0.01)*inpute)*exchangeRate)| number:2 }}CAD  </p>
                 <p ng-show="yesmapres"><b>Grand Total in CAD: ${{(inpute*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inpute}} USD --> ${{inpute*exchangeRate | number:2}} CAD </p>
 
               </div>
             </div>
           </div>
-
-
       </div>
+
       <br/>
       <div>
         <h1>Rails</h1>
@@ -401,7 +280,7 @@
               <label>Map ${{radioF.map}} USD</label>
               <input ng-change="totalRailsChange()" ng-model="inputr" type="radio" name="map" ng-value="radioF.map"/>
             </div>
-            <div ng-show="totalRails"  ng-init="multiplier='1.00'">
+            <div  class="totalbox" ng-show="totalRails"  ng-init="multiplier='1.00'">
               <p  ng-show="notmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)-(railpromo*exchangeRate)-((railpercent*0.01)*inputr)*exchangeRate| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD --> ${{inputr*exchangeRate | number:2}} CAD <br/> Promo: ${{railpromo}} USD --> ${{railpromo*exchangeRate | number:2}} CAD <br/> Percentage Discount: {{railpercent}}% --> ${{(((railpercent*0.01)*inputr)*exchangeRate)| number:2 }}CAD  </p>
               <p  ng-show="yesmaprail"><b>Grand Total in CAD: ${{(inputr*exchangeRate)| number:2}}</b><br/>Price Breakdown: <br/> Base: ${{inputr}} USD --> ${{inputr*exchangeRate | number:2}} CAD </p>
             </div>

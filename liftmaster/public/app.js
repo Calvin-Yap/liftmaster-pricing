@@ -1,157 +1,238 @@
 angular.module('app', ['ngRoute','firebase'])
-    // Database Getter
     .controller('controller', function($scope,$http){
-        $http.get("pricing.php")
-        .then(function(response){
-          $scope.pricing = response.data.elite;
-          $scope.pricing2 = response.data.premium;
-          $scope.pricing3 = response.data.contractor;
+      /*
+        PHP calls to get items from each db
+      */
+     // Garage Door
+      $scope.afterGarSelect=false;    
+      $scope.afterGarModel=false; 
+      $scope.updateSeries= function(){
+        if($scope.series == "1"){
+          $http.get("pricing.php")
+          .then(function(response){
+            $scope.Gtype = response.data.elite;
+            $scope.afterGarSelect=true;    
+            $scope.afterGarModel=false; 
+          });
+        }
+        else if($scope.series =="2"){
+          $http.get("pricing.php")
+          .then(function(response){
+            $scope.Gtype = response.data.premium;
+            $scope.afterGarSelect=true;    
+            $scope.afterGarModel=false; 
+          });
+        }
+        else if($scope.series == "3") {
+          $http.get("pricing.php")
+          .then(function(response){
+            $scope.Gtype = response.data.contractor;
+            $scope.afterGarSelect=true;    
+            $scope.afterGarModel=false; 
+          });
+        }
+      }
+      //Radio Controls
+      $scope.afterSelect=false;    
+      $scope.afterModel=false; 
+      $scope.updateControls= function(){
+        if($scope.radioControls == "1"){
+          $http.get("pricingControls.php")
+      .then(function(response){
+        $scope.version = response.data.myq;
+        $scope.afterSelect = true;
+        $scope.afterModel=false; 
+      });
+        }
+        else if($scope.radioControls =="2"){
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.trans2;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+
+          });
+        }
+        else if($scope.radioControls == "3") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.trans;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+
+          });
+        }
+         else if($scope.radioControls == "4") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.universalSolu;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+
+          });
+        }
+        else if($scope.radioControls == "5") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.keypads2;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+          });
+
+        }
+        else if($scope.radioControls == "6") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.controlpanels2;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+          });
+
+        }
+        else if($scope.radioControls == "7") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.controlpanels;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+          });
+        }
+        else if($scope.radioControls == "8") {
+          $http.get("pricingControls.php")
+          .then(function(response){
+            $scope.version = response.data.radio;
+            $scope.afterSelect = true;
+            $scope.afterModel=false; 
+          });
+        }
+      }
+      //Rails
+      $scope.afterSelectRail=false;
+      $scope.afterModelRail=false; 
+
+      $scope.updateRails= function(){
+        if($scope.railControls == "1"){
+          $http.get("rails.php")
+      .then(function(response){
+        $scope.railtype = response.data.beltrails;
+        $scope.afterSelectRail=true;
+      $scope.afterModelRail=false; 
+      });
+        }
+        else if($scope.railControls =="2"){
+          $http.get("rails.php")
+          .then(function(response){
+            $scope.railtype = response.data.chainrails;
+            $scope.afterSelectRail=true;
+            $scope.afterModelRail=false; 
+          });
+        }
+        else if($scope.railControls == "3") {
+          $http.get("rails.php")
+          .then(function(response){
+            $scope.railtype = response.data.ibeamrails;
+            $scope.afterSelectRail=true;
+            $scope.afterModelRail=false; 
+          });
+        }
+         else if($scope.railControls == "4") {
+          $http.get("rails.php")
+          .then(function(response){
+            $scope.railtype = response.data.cabledriverails;
+            $scope.afterSelectRail=true;
+            $scope.afterModelRail=false; 
+          });
+        }
+      }
+      //Residential Accessories
+      $scope.afterSelectRes=false;
+      $scope.afterModelRes=false; 
+
+      $scope.updateRes = function(){
+        if($scope.resControls == "1"){
+          $http.get("residential.php")
+      .then(function(response){
+        $scope.restype = response.data.utility;
+        $scope.afterSelectRes=true;
+      $scope.afterModelRes=false; 
         });
-
-
-        // Variable initilization 
-        $scope.isElite = false;
-        $scope.isPremium = false;
-        $scope.isContractor = false;
-        $scope.isSelect48 = false;
-        $scope.isSelect64 = false;
-        $scope.isSelect48reg = false;
-        $scope.isSelect64reg = false;
-        $scope.isSelect48map = false;
-        $scope.isSelect64map = false;
-        $scope.promo = "0";
-        $scope.promo1 = "0";
-        $scope.isSelect64prem = false;
-        $scope.isSelect64regprem = false;
-        $scope.isSelect64mapprem = false;
-        $scope.isSelectCon80reg = false;
-        $scope.isSelectCon64reg = false;
-        $scope.isSelectCon48map = false;
-        $scope.isSelectCon64map = false;
-        $scope.promoCon64 = "0";
-        $scope.promoCon80 = "0";
-        $scope.isSelectCon64 = false;
-        $scope.isSelectCon80 = false;
-        $scope.percentage = "0";
-        $scope.percentageElite64 = "0";
-        $scope.percentagePrem ="0";
-        $scope.percentageCon80 ="0";
-        $scope.percentageCon64="0";
-
-        $scope.reset =function(){
-          $scope.isSelect48 = false;
-          $scope.isSelect64 = false;
-          $scope.isSelect48reg = false;
-          $scope.isSelect64reg = false;
-          $scope.isSelect48map = false;
-          $scope.isSelect64map = false;
-          $scope.isSelect64prem = false;
-          $scope.isSelect64regprem = false;
-          $scope.isSelect64mapprem = false;
-          $scope.isSelect64prem = false;
-          $scope.isSelect64regprem = false;
-          $scope.isSelect64mapprem = false;
-          $scope.isSelectCon80reg = false;
-          $scope.isSelectCon64reg = false;
-          $scope.isSelectCon48map = false;
-          $scope.isSelectCon64map = false;
-          $scope.model = null;
-          $scope.model1= null;
-          $scope.model3=null;
-          $scope.promo = "0";
-          $scope.promo1 = "0";
-          $scope.promoCon64 = "0";
-          $scope.promoCon80 = "0";
-          $scope.percentage = "0";
-          $scope.percentageElite64 = "0";
-          $scope.percentagePrem ="0";
-          $scope.percentageCon80 ="0";
-          $scope.percentageCon64="0";
         }
-        $scope.updateSeries= function(){
-          if($scope.series == "1"){
-            $scope.reset();
-            $scope.isElite = true;
-            $scope.isPremium = false;
-            $scope.isContractor = false;
-          }
-          else if($scope.series =="2"){
-            $scope.reset();
-            $scope.isElite = false;
-            $scope.isPremium = true;
-           $scope.isContractor = false;
-          }
-          else if($scope.series == "3") {
-            $scope.reset();
-            $scope.isElite = false;
-            $scope.isPremium = false;
-           $scope.isContractor = true;
-          }
+        else if($scope.resControls =="2"){
+          $http.get("residential.php")
+          .then(function(response){
+            $scope.restype = response.data.batteries;
+            $scope.afterSelectRes=true;
+            $scope.afterModelRes=false; 
+          });
         }
-       $scope.update = function(){
-         $scope.size="0";
-         $scope.size1="0";
-         $scope.promo = "0";
-        $scope.promo1 = "0";
-        $scope.percentage = "0";
-          $scope.percentageElite64 = "0";
-         //console.log($scope.model.name);
-         if( $scope.model.name == "8500W" || $scope.model.name == "8500C"){
-           $scope.isSelect48=true;
-           $scope.isSelect64 = false;
-         }else{
-          $scope.isSelect48 = false;
-          $scope.isSelect64 = true;
-         }
+        else if($scope.resControls == "3") {
+          $http.get("residential.php")
+          .then(function(response){
+            $scope.restype = response.data.accessories;
+            $scope.afterSelectRes=true;
+            $scope.afterModelRes=false; 
+          });
         }
+      }    
+
+       /*
+        Variable Declaration 
+       */
       
-        $scope.update2 = function(){
-         $scope.sizePrem="0";
-        $scope.promoPrem = "0";
-        $scope.percentagePrem ="0";
-        $scope.isSelect64prem = true;
+        // Values for prices
+        $scope.inputh = "0"; // Garage Doors
+        $scope.inputp = "0"; // Radio Controls
+        $scope.inputz ="0"; // Radio Controls
+        $scope.inpute = "0"; // Residential Acces
+        $scope.inputr ="0"; // Rails
 
-        }
-
-        $scope.update3 = function(){
-          $scope.sizeCon80 ="0";
-          $scope.sizeCon64 ="0";
-          $scope.promoCon80 ="0";
-          $scope.promoCon64 ="0";
-          $scope.percentageCon80 ="0";
-          $scope.percentageCon64="0";
-         if( $scope.model3.name == "80107" || $scope.model3.name == "80108"){
-          $scope.isSelectCon64 = false;
-        $scope.isSelectCon80 = true;
-
-         }else{
-          $scope.isSelectCon64 = true;
-          $scope.isSelectCon80 = false;
-
-         }
-        }
-
-        $scope.totalRadio =false;
-        $scope.totalRes= false;
-        $scope.totalRails=false;
-
+        // Quantity identifiers
+        // Garage Door
+        $scope.noGarqty123=true;
+        $scope.noGarqty2447=true;
+        $scope.noGarqty48plus=true;
+        $scope.noGarqty131=true;
+        $scope.noGarqty3263=true;
+        $scope.noGarqty64plus=true;
+        $scope.noGarqty139=true;
+        $scope.noGarqty4079=true;
+        $scope.noGarqty80plus=true;
+        // Radio Controls
         $scope.noanyqty=true;
         $scope.noqty147=true;
         $scope.noqty48plus=true;
         $scope.noqty123=true;
         $scope.noqty24plus=true;
         $scope.nomsrp=true;
-        $scope.inputp = "0";
+        //Res
+        $scope.no2anyqty=true;
+        $scope.noqty123=true;
+        $scope.noqty24plus=true;
+        
+        //Model Check to see if pressed used for hiding menu options
         $scope.radioE=null;
-        $scope.inputz = "0";
-
+        $scope.radioH=null;
+        $scope.radioG=null;
+        //Total Check to see if pressed used for displaying total
+        $scope.totalRadio =false;
+        $scope.totalRes= false;
+        $scope.totalRails=false;
+        $scope.totalGar= false;
+        // Percentage and Promo Calclulations
+        $scope.garpromo = "0";
+        $scope.garpercent ="0";
         $scope.radiopromo="0";
         $scope.radiopercent="0";
+        $scope.respromo = "0";
+        $scope.respercent ="0";
+        $scope.railpromo ="0";
+        $scope.railpercent ="0";
 
+        // Checking type for Radio
         $scope.checktype = function(){
+          $scope.inputp = "0"; 
+          $scope.inputz ="0"; 
           $scope.totalRadio = false;
-          $scope.inputp = "0";
-          $scope.inputz = "0";
           $scope.radiopromo="0";
           $scope.radiopercent="0";
           $scope.noanyqty=true;
@@ -182,10 +263,90 @@ angular.module('app', ['ngRoute','firebase'])
             $scope.nomsrp=false;
           }}
         }
+        // Checking type for Garage
+        $scope.checktypeGar = function(){
+          $scope.totalGar= false;
+          $scope.inputh = "0";
+          $scope.garpromo = "0";
+          $scope.garpercent ="0";
+          $scope.noGarqty123=true;
+          $scope.noGarqty2447=true;
+          $scope.noGarqty48plus=true;
+          $scope.noGarqty131=true;
+          $scope.noGarqty3263=true;
+          $scope.noGarqty64plus=true;
+          $scope.noGarqty139=true;
+          $scope.noGarqty4079=true;
+          $scope.noGarqty80plus=true;
+        if($scope.radioH != null ){ 
+          $scope.afterGarModel=true;         
+            if($scope.radioH.qty123 == "na"){
+              $scope.noGarqty123 = false;
+            }
+            if($scope.radioH.qty2447 == "na"){
+              $scope.noGarqty2447 = false;
+            }
+            if($scope.radioH.qty48plus == "na"){
+              $scope.noGarqty48plus = false;
+            }
+            if($scope.radioH.qty131 == "na"){
+              $scope.noGarqty131 = false;
+            }
+            if($scope.radioH.qty3263 == "na"){
+              $scope.noGarqty3263 = false;
+            }
+            if($scope.radioH.qty64plus == "na"){
+              $scope.noGarqty64plus = false;
+            }
+            if($scope.radioH.qty139 == "na"){
+              $scope.noGarqty139 = false;
+            }
+            if($scope.radioH.qty4079 == "na"){
+              $scope.noGarqty4079 = false;
+            }
+            if($scope.radioH.qty80plus == "na"){
+              $scope.noGarqty80plus = false;
+            }
+          
+          }
 
+        }
+        // Checking type for res access
+        $scope.checktype2 = function(){
+          $scope.totalRes= false;
+          $scope.inpute = "0";
+          $scope.respromo = "0";
+        $scope.respercent ="0";
+          $scope.no2anyqty=true;
+        $scope.no2qty123=true;
+        $scope.no2qty24plus=true;
+        if($scope.radioG != null ){ 
+          $scope.afterModelRes=true;         
+          if($scope.radioG.anyqty == "na"){
+            $scope.no2anyqty = false;
+          }
+          if($scope.radioG.qty123 == "na"){
+            $scope.no2qty123=false;
+          }
+          if($scope.radioG.qty24plus == "na"){
+            $scope.no2qty24plus=false;
+          }
+          }
 
+        }
+        // Checking type for rails
+        $scope.checktype3= function(){
+          $scope.totalRails=false;
+          $scope.inputr="0";
+          $scope.railpromo ="0";
+        $scope.railpercent ="0";
+          if($scope.radioF != null){
+            $scope.afterModelRail =true;
+          }
+        }
+
+        // Displaying total Radio
         $scope.totalRadioChange = function(){
-          $scope.totalRadio = false;
           $scope.notmapradio = false;
           $scope.yesmapradio = false;
 
@@ -213,9 +374,8 @@ angular.module('app', ['ngRoute','firebase'])
           }
 
         }
-        
+        // Displaying total Res
         $scope.totalResChange = function(){
-          $scope.totalRadio = false;
           $scope.notmapres = false;
           $scope.yesmapres = false;
 
@@ -229,9 +389,8 @@ angular.module('app', ['ngRoute','firebase'])
             $scope.notmapres = true;
           }
         }
-        
+        // Displaying total Rails
         $scope.totalRailsChange = function(){
-          $scope.totalRadio = false;
           $scope.notmaprail = false;
           $scope.yesmaprail = false;
 
@@ -245,263 +404,22 @@ angular.module('app', ['ngRoute','firebase'])
           }
 
         }
+        // Displaying total Garage
+        $scope.totalGarageChange= function(){
+          $scope.notmapgar = false;
+          $scope.yesmapgar = false;
 
-        $scope.no2anyqty=true;
-        $scope.noqty123=true;
-        $scope.noqty24plus=true;
-        $scope.inpute = "0";
-        $scope.radioG=null;
-
-
-
-        $scope.respromo = "0";
-        $scope.respercent ="0";
-        $scope.checktype2 = function(){
-          $scope.totalRes= false;
-          $scope.inpute = "0";
-          $scope.respromo = "0";
-        $scope.respercent ="0";
-          $scope.no2anyqty=true;
-        $scope.no2qty123=true;
-        $scope.no2qty24plus=true;
-        if($scope.radioG != null ){ 
-          $scope.afterModelRes=true;         
-          if($scope.radioG.anyqty == "na"){
-            $scope.no2anyqty = false;
+          if($scope.inputh  > "0"){
+            $scope.totalGar= true;
           }
-          if($scope.radioG.qty123 == "na"){
-            $scope.no2qty123=false;
-          }
-          if($scope.radioG.qty24plus == "na"){
-            $scope.no2qty24plus=false;
-          }
-          }
-
-        }
-
-        $scope.inputr ="0";
-        $scope.railpromo ="0";
-        $scope.railpercent ="0";
-        $scope.checktype3= function(){
-          $scope.totalRails=false;
-          $scope.inputr="0";
-          $scope.railpromo ="0";
-        $scope.railpercent ="0";
-          if($scope.radioF != null){
-            $scope.afterModelRail =true;
+          if($scope.inputh == $scope.radioH.map){
+            $scope.yesmapgar = true;
+          }else{
+            $scope.notmapgar = true;
           }
         }
-
-
-        $scope.mapcheck = function(){
-          $scope.isSelect48reg = false;
-              $scope.isSelect48map = false;
-            if($scope.size1 == $scope.model.map){
-              $scope.isSelect64map = true;
-              $scope.isSelect64reg = false;
-            }
-            else{
-              $scope.isSelect64reg = true;
-              $scope.isSelect64map = false;
-            }
-        }
-        $scope.mapcheck1 = function(){
-          $scope.isSelect64reg = false;
-              $scope.isSelect64map = false;
-            if($scope.size == $scope.model.map){
-              $scope.isSelect48map = true;
-              $scope.isSelect48reg = false;
-            }
-            else{
-              $scope.isSelect48reg = true;
-              $scope.isSelect48map = false;
-            }
-        }
-
-        $scope.mapcheck3 = function(){
-          $scope.isSelect64regprem = false;
-          $scope.isSelect64mapprem = false;
-          if($scope.sizePrem == $scope.model1.map){
-              $scope.isSelect64mapprem = true;
-              $scope.isSelect64regprem = false;
-            }
-            else{
-              $scope.isSelect64regprem = true;
-              $scope.isSelect64mapprem = false;
-            }
-        }
-
-        $scope.mapcheck4 = function(){
-          $scope.isSelectCon64reg = false;
-          $scope.isSelectCon64map = false;
-          if($scope.sizeCon64 == $scope.model3.map){
-              $scope.isSelectCon64map = true;
-              $scope.isSelectCon64reg = false;
-            }
-            else{
-              $scope.isSelectCon64reg = true;
-              $scope.isSelectCon64map = false;
-            }
-        }
-        $scope.mapcheck5 = function(){
-          $scope.isSelectCon80map = false;
-          $scope.isSelectCon80reg = false;
-          if($scope.sizeCon80 == $scope.model3.map){
-              $scope.isSelectCon80map = true;
-              $scope.isSelectCon80reg = false;
-            }
-            else{
-              $scope.isSelectCon80reg = true;
-              $scope.isSelectCon80map = false;
-            }
-        }
-
-        //radio
-        $scope.afterSelect=false;    
-        $scope.afterModel=false; 
-        $scope.updateControls= function(){
-          if($scope.radioControls == "1"){
-            $http.get("pricingControls.php")
-        .then(function(response){
-          $scope.version = response.data.myq;
-          $scope.afterSelect = true;
-          $scope.afterModel=false; 
-        });
-          }
-          else if($scope.radioControls =="2"){
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.trans2;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-
-            });
-          }
-          else if($scope.radioControls == "3") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.trans;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-
-            });
-          }
-           else if($scope.radioControls == "4") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.universalSolu;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-
-            });
-          }
-          else if($scope.radioControls == "5") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.keypads2;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-            });
-
-          }
-          else if($scope.radioControls == "6") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.controlpanels2;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-            });
-
-          }
-          else if($scope.radioControls == "7") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.controlpanels;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-            });
-          }
-          else if($scope.radioControls == "8") {
-            $http.get("pricingControls.php")
-            .then(function(response){
-              $scope.version = response.data.radio;
-              $scope.afterSelect = true;
-              $scope.afterModel=false; 
-            });
-          }
-        }
-        //Rail
-        
-
-        $scope.afterSelectRail=false;
-        $scope.afterModelRail=false; 
-
-        $scope.updateRails= function(){
-          if($scope.railControls == "1"){
-            $http.get("rails.php")
-        .then(function(response){
-          $scope.railtype = response.data.beltrails;
-          $scope.afterSelectRail=true;
-        $scope.afterModelRail=false; 
-        });
-          }
-          else if($scope.railControls =="2"){
-            $http.get("rails.php")
-            .then(function(response){
-              $scope.railtype = response.data.chainrails;
-              $scope.afterSelectRail=true;
-              $scope.afterModelRail=false; 
-            });
-          }
-          else if($scope.railControls == "3") {
-            $http.get("rails.php")
-            .then(function(response){
-              $scope.railtype = response.data.ibeamrails;
-              $scope.afterSelectRail=true;
-              $scope.afterModelRail=false; 
-            });
-          }
-           else if($scope.railControls == "4") {
-            $http.get("rails.php")
-            .then(function(response){
-              $scope.railtype = response.data.cabledriverails;
-              $scope.afterSelectRail=true;
-              $scope.afterModelRail=false; 
-            });
-          }
-        }
-
-        //Res
-        $scope.afterSelectRes=false;
-        $scope.afterModelRes=false; 
-
-        $scope.updateRes = function(){
-          if($scope.resControls == "1"){
-            $http.get("residential.php")
-        .then(function(response){
-          $scope.restype = response.data.utility;
-          $scope.afterSelectRes=true;
-        $scope.afterModelRes=false; 
-          });
-          }
-          else if($scope.resControls =="2"){
-            $http.get("residential.php")
-            .then(function(response){
-              $scope.restype = response.data.batteries;
-              $scope.afterSelectRes=true;
-              $scope.afterModelRes=false; 
-            });
-          }
-          else if($scope.resControls == "3") {
-            $http.get("residential.php")
-            .then(function(response){
-              $scope.restype = response.data.accessories;
-              $scope.afterSelectRes=true;
-              $scope.afterModelRes=false; 
-            });
-          }
-        }    
-
+      
+        // Changes to the exchange rate
         $scope.exchangeRate = "1.31";
 
         $scope.changeratebox = false;
