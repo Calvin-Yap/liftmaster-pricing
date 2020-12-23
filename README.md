@@ -1,10 +1,12 @@
 <h1 align="center" style="border-bottom:none">LiftMaster Pricing</h1>
 
 <p align="center">
-
-![alt liftmasterLogo](https://liftmaster-3d0d7.web.app/Title.png)
-
-[Project Page](https://liftmaster-3d0d7.web.app/) · [Issues](https://github.com/Calvin-Yap/liftmaster-pricing/issues)
+  <img  src="https://liftmaster-3d0d7.web.app/Title.png">
+    
+</p>
+<p align="center">
+<a href="https://liftmaster-3d0d7.web.app/" target="blank">Project Page </a> ·
+<a href="https://github.com/Calvin-Yap/liftmaster-pricing/issues" target="blank">Issues</a>
 </p>
 
 <details open>
