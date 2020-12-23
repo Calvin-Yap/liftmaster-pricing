@@ -14,6 +14,7 @@
 
 1. [About The Project](#about-the-project)
     - [Built With](#built-with)
+    - [Langauge Choices](#language-choices)
 1. [Getting Started](#getting-started)
 1. [Usage](#usage)
 1. [Contact](#contact)
@@ -24,7 +25,7 @@
 
 This is a pricing calculator app designed for LiftMaster Garage Systems and Accessories
 
-This project aims to
+This project aims to:
 
 - Create mobile friendly UI that workers are able to use on the go with meeting with customers
 - Improve on the efficiency of the quoting process
@@ -42,7 +43,7 @@ This project aims to
 
 - Already familiar to using the AngularJS framework from previous projects
     - Can take advantage of simple 2-way binding
-    - Easy built in HTTP service to access local PHP jSON databases
+    - Easy built in HTTP service to access local PHP JSON databases
 - Hosted using Firebase for its simplicity in collecting daily user counts and crash analytics.
     - Looking to add Firebase Authentication in the future for better admin controls.
 
