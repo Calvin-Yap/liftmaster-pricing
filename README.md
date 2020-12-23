@@ -44,8 +44,8 @@ This project aims to:
 - Already familiar to using the AngularJS framework from previous projects
     - Can take advantage of simple 2-way binding
     - Easy built in HTTP service to access local PHP JSON databases
-- Hosted using Firebase for its simplicity in collecting daily user counts and crash analytics.
-    - Looking to add Firebase Authentication in the future for better admin controls.
+- Hosted using Firebase for its simplicity in collecting daily user counts and crash analytics
+    - Looking to add Firebase Authentication in the future for better admin controls
 
 # Getting Started
 
@@ -71,7 +71,7 @@ For normal usage in finding the adjusted price of products (from USD to CAD)
 1. Click the radio button to the corresponding quantity
 1. Adjusted price will be shown in the box bellow
     - **Grand total** will be in bold
-    - Base price breakdown is listed bellow 
+    - Base price breakdown is listed bellow
 
 ## Promotional Pricing
 
